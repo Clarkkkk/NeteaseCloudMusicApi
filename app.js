@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
-const http = require('http')
+// const http = require('http')
 const https = require('https')
 const bodyParser = require('body-parser')
 const request = require('./util/request')
@@ -26,6 +26,8 @@ const app = express()
 
 // CORS & Preflight request
 app.use((req, res, next) => {
+  console.log(req.path)
+  //console.log(req.headers)
   if (req.path !== '/' && !req.path.includes('.')) {
     res.set({
       'Access-Control-Allow-Credentials': true,
@@ -112,11 +114,11 @@ fs.readdirSync(path.join(__dirname, 'module'))
 const port = process.env.PORT || 3000
 const host = process.env.HOST || ''
 
-
+/*
 app.server = app.listen(port, host, () => {
   console.log(`server running @ http://${host ? host : 'localhost'}:${port}`)
 })
-
+*/
 
 const httpsOptions = {
   key : fs.readFileSync('./https/2_clarkkkk.xyz.key'),
