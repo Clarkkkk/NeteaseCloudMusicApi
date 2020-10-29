@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
-// const http = require('http')
 const https = require('https')
 const bodyParser = require('body-parser')
 const request = require('./util/request')
@@ -125,7 +124,8 @@ const httpsOptions = {
   cert: fs.readFileSync('./https/1_clarkkkk.xyz_bundle.crt')
 }
 
-//http.createServer(app).listen(3000)
-https.createServer(httpsOptions, app).listen(3000)
+https.createServer(httpsOptions, app).listen(port, host, () => {
+  console.log(`server running @ https://${host ? host : 'localhost'}:${port}`)
+})
 
 module.exports = app
