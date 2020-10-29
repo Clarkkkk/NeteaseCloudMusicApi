@@ -123,7 +123,7 @@ const httpsOptions = {
   cert: fs.readFileSync('./https/1_clarkkkk.xyz_bundle.crt')
 }
 
-http.createServer(app).listen(80)
-https.createServer(httpsOptions, app).listen(443)
+//http.createServer(app).listen(80)
+https.createServer(httpsOptions, app).listen(3000)
 
 module.exports = app
