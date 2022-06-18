@@ -144,11 +144,14 @@ async function consturctServer(moduleDefs) {
    * CORS & Preflight request
    */
   app.use((req, res, next) => {
+    console.log(req.path)
     if (req.path !== '/' && !req.path.includes('.')) {
       res.set({
         'Access-Control-Allow-Credentials': true,
         'Access-Control-Allow-Origin':
-          CORS_ALLOW_ORIGIN || req.headers.origin || '*',
+          process.env.NODE_ENV === 'development'
+            ? req.headers.origin
+            : 'https://carllllo.work',
         'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
         'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
         'Content-Type': 'application/json; charset=utf-8',
@@ -213,7 +216,7 @@ async function consturctServer(moduleDefs) {
 
       let query = Object.assign(
         {},
-        { cookie: req.cookies },
+        { cookie: req.cookies, realIp: '219.136.134.125' },
         req.query,
         req.body,
         req.files,
