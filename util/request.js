@@ -4,6 +4,7 @@ const { default: axios } = require('axios')
 const { PacProxyAgent } = require('pac-proxy-agent')
 const http = require('http')
 const https = require('https')
+const http2 = require('http2-wrapper')
 const tunnel = require('tunnel')
 const { URLSearchParams, URL } = require('url')
 const config = require('../util/config.json')
@@ -43,6 +44,21 @@ const chooseUserAgent = (ua = false) => {
     ? realUserAgentList[Math.floor(Math.random() * realUserAgentList.length)]
     : ua
 }
+
+const http2Transport = {
+  request: function request(options, handleResponse) {
+    const req = http2.request(options, handleResponse)
+
+    const origOn = req.on.bind(req)
+    req.on = (name, ...args) => {
+      if (name != 'socket') {
+        return origOn(name, ...args)
+      }
+    }
+    return req
+  },
+}
+
 const createRequest = (method, url, data = {}, options) => {
   return new Promise((resolve, reject) => {
     let headers = { 'User-Agent': chooseUserAgent(options.ua) }
@@ -133,9 +149,10 @@ const createRequest = (method, url, data = {}, options) => {
       method: method,
       url: url,
       headers: headers,
+      transport: http2Transport,
       data: new URLSearchParams(data).toString(),
       httpAgent: new http.Agent({ keepAlive: true }),
-      httpsAgent: new https.Agent({ keepAlive: true }),
+      httpsAgent: new http2.Agent(),
     }
 
     if (options.crypto === 'eapi') settings.encoding = null

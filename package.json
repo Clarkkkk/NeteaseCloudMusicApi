@@ -66,6 +66,7 @@
     "axios": "^1.2.2",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.9",
+    "http2-wrapper": "^2.2.0",
     "md5": "^2.3.0",
     "music-metadata": "^7.5.3",
     "pac-proxy-agent": "^7.0.0",
