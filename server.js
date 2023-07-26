@@ -155,6 +155,7 @@ async function consturctServer(moduleDefs) {
         'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
         'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
         'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store',
       })
     }
     req.method === 'OPTIONS' ? res.status(204).end() : next()
@@ -187,7 +188,7 @@ async function consturctServer(moduleDefs) {
   /**
    * Cache
    */
-  app.use(cache('2 minutes', (_, res) => res.statusCode === 200))
+  // app.use(cache('2 minutes', (_, res) => res.statusCode === 200))
 
   /**
    * Special Routers
